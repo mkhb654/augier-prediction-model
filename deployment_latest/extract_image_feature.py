@@ -51,7 +51,7 @@ def get_vector_api(model, img):
     layer = model._modules.get('avgpool')
     model.eval()
 
-    scaler = transforms.Scale((224, 224))
+    scaler = transforms.Resize((224, 224))
     normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     to_tensor = transforms.ToTensor()
 
