@@ -44,6 +44,8 @@ def upload_file():
       f = request.files['file']
       image = Image.open(io.BytesIO(f.read()))
       img = np.array(image)
+      if img.shape[0]>3:
+         img = img[:,:,:3]
 
       query_feature = get_vector_api(resnet_model, img)
 
