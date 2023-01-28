@@ -49,8 +49,8 @@ def upload_file():
 
       fetched_img_paths  = retrieve_image2image_api(query_feature, features_database_i2i, 10)
       
-      return fetched_img_paths
-      # return render_template('uploader.html')
+      # return fetched_img_paths
+      return render_template('uploader.html')
 
    if request.method == 'GET':
       return "Nothing here"
