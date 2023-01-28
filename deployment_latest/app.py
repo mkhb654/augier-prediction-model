@@ -51,6 +51,9 @@ def upload_file():
       
       return render_template('uploader.html')
 
+   if request.method == 'GET':
+      return "Nothing here"
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
