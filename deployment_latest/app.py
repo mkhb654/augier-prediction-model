@@ -41,7 +41,10 @@ def web_check2():
       return "invalid image"
 
    img = np.array(pil_img)
- 
+   
+   if img.shape[2] > 3:
+      img = img[:,:,:3]
+
    query_feature = get_vector_api(resnet_model, img)
 
    fetched_img_paths  = retrieve_image2image_api(query_feature, features_database_i2i, 10)
