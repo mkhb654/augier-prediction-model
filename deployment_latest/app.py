@@ -40,10 +40,9 @@ def web_check2():
    except:
       return "invalid image"
 
+   pil_img.convert("RGB")
+
    img = np.array(pil_img)
-   
-   if img.shape[2] > 3:
-      img = img[:,:,:3]
 
    query_feature = get_vector_api(resnet_model, img)
 
