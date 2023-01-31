@@ -1,5 +1,8 @@
 from flask import Flask, send_from_directory, request, jsonify,render_template
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
+CORS(app, resources={r"/*": {"origins":[ "*", "https://augier.art/**"] } } )
 import json
 import os
 import requests
@@ -10,10 +13,8 @@ from extract_image_feature import get_vector_api
 import torchvision.models as models
 from retrieve_image2image import retrieve_image2image_api
 import numpy as np
-import io
 from PIL import Image
-import cv2
-import base64
+
 
 #text-image
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -48,8 +49,6 @@ def web_check2():
    fetched_img_paths  = retrieve_image2image_api(query_feature, features_database_i2i, 10)
   
    return fetched_img_paths
-
-
 
 
 if __name__ == '__main__':
