@@ -3,9 +3,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 CORS(app, resources={r"/*": {"origins":[ "*", "https://augier.art/**"] } } )
-import json
-import os
-import requests
+
 from retrieve_text2image import retrieve_text2image_api
 import torch 
 import clip
