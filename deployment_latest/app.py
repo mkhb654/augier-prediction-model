@@ -13,6 +13,7 @@ import numpy as np
 import io
 from PIL import Image
 import cv2
+import base64
 
 #text-image
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -24,7 +25,7 @@ resnet_model = models.resnet18(pretrained=True)
 features_database_i2i = "image_2_image_features_database/"
 
 
-@app.route('/web_check', methods=['GET', 'POST'])
+@app.route('/text_query', methods=['GET', 'POST'])
 def web_check():
    query = request.args.get('query',"")
    print("Query -->", query)
@@ -32,24 +33,23 @@ def web_check():
 
    return fetched_img_paths
 
+@app.route('/image_query', methods=['GET', 'POST'])
+def web_check2():
 
-@app.route('/upload')
-def setup_upload_file():
-   return render_template('upload.html')
+   try:
+      pil_img = Image.open(request.files["image"])
+   except:
+      return "invalid image"
+
+   img = np.array(pil_img)
+ 
+   query_feature = get_vector_api(resnet_model, img)
+
+   fetched_img_paths  = retrieve_image2image_api(query_feature, features_database_i2i, 10)
+  
+   return fetched_img_paths
 
 
-@app.route('/uploader', methods = ['GET', 'POST'])
-def upload_file():
-   if request.method == 'POST':
-      f = request.files['file']
-      image = Image.open(io.BytesIO(f.read()))
-      img = np.array(image)
-
-      query_feature = get_vector_api(resnet_model, img)
-
-      fetched_img_paths  = retrieve_image2image_api(query_feature, features_database_i2i, 10)
-      
-      return fetched_img_paths
 
 
 if __name__ == '__main__':
